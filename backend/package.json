@@ -1,0 +1,30 @@
+{
+  "name": "prepdenyx",
+  "version": "1.0.0",
+  "description": "these is an app that helps student study well for their exams and test!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "PromotexDev",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.4",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.1.1",
+    "node-fetch": "^3.3.2",
+    "nodemailer": "^7.0.12",
+    "openai": "^6.32.0",
+    "otp-generator": "^4.0.1",
+    "pg": "^8.18.0",
+    "pg-hstore": "^2.3.4",
+    "postgres": "^3.4.8",
+    "sequelize": "^6.37.7",
+    "sequelize-cli": "^6.6.5",
+    "sqlite3": "^6.0.1"
+  }
+}
