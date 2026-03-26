@@ -1,9 +1,11 @@
 import React from "react";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Trophy, Medal, Crown } from "lucide-react-native";
+import { Trophy, Medal, Crown, MessageSquare } from "lucide-react-native";
+import { useRouter } from "expo-router";
 
 export default function Leaderboard() {
+  const router = useRouter();
   const students = [
     { id: 1, name: "Emmanuel O.", points: 4500, school: "King's College" },
     { id: 2, name: "Aisha F.", points: 4320, school: "Queens College" },
@@ -11,6 +13,8 @@ export default function Leaderboard() {
     { id: 4, name: "Chinedu M.", points: 3950, school: "Atlantic Hall" },
     { id: 5, name: "Grace B.", points: 3800, school: "Day Waterman" },
   ];
+
+  const myIndex = students.findIndex(s => s.id === 3);
 
   return (
     <SafeAreaView className="flex-1 bg-[#faf9f4]">
@@ -26,6 +30,7 @@ export default function Leaderboard() {
       <ScrollView className="flex-1 p-6 pt-8">
         {students.map((student, idx) => {
           const isMe = student.id === 3;
+          const isHigher = idx < myIndex;
           let rankColor = "#737a8d";
           let Icon = null;
           
@@ -47,10 +52,19 @@ export default function Leaderboard() {
                 <Text className="text-sm text-[#737a8d]">{student.school}</Text>
               </View>
 
-              <View className="items-end block">
+              <View className="items-end mr-4">
                 <Text className="text-lg font-bold text-[#29a38b]">{student.points}</Text>
                 <Text className="text-xs font-semibold text-[#737a8d]">pts</Text>
               </View>
+
+              {isHigher && (
+                <TouchableOpacity 
+                  onPress={() => router.push(`/chat/${student.id}`)}
+                  className="bg-[#29a38b] p-2 rounded-full"
+                >
+                  <MessageSquare size={20} color="white" />
+                </TouchableOpacity>
+              )}
             </View>
           );
         })}

@@ -11,4 +11,7 @@ const upload = multer({ dest: 'uploads/' });
 // Used protect middleware to ensure only authenticated students use API
 router.post('/tutor', protect, upload.single('audio'), aiController.processVoiceTutor);
 
+// Route to process Image Tutor interactions
+router.post('/image', protect, upload.single('image'), aiController.processImageTutor);
+
 module.exports = router;

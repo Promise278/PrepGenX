@@ -37,7 +37,7 @@ const Signup = () => {
     try {
       // Use EXPO_PUBLIC_API_URL if defined, otherwise localhost
       const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://localhost:5000";
-      const response = await fetch(`${apiUrl}/api/auth/register`, {
+      const response = await fetch(`${apiUrl}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ fullname, username, email, password }),
@@ -113,7 +113,7 @@ const Signup = () => {
             <View className="flex-row items-center rounded-xl border border-[#e9e8ed] bg-[#faf9f4] px-3 mb-4">
               <User size={18} />
               <TextInput
-                placeholder="Username"
+                placeholder="User Name"
                 value={username}
                 onChangeText={setUsername}
                 autoCapitalize="none"

@@ -15,6 +15,7 @@ import { BookOpen, Mail, Lock } from "lucide-react-native";
 import { router } from "expo-router";
 import Toast from "react-native-toast-message";
 import { StatusBar } from "expo-status-bar";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
@@ -34,7 +35,7 @@ const Signin = () => {
 
   //   try {
   //     const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://localhost:5000";
-  //     const response = await fetch(`${apiUrl}/api/auth/login`, {
+  //     const response = await fetch(`${apiUrl}/auth/login`, {
   //       method: "POST",
   //       headers: { "Content-Type": "application/json" },
   //       body: JSON.stringify({ email, password }),
@@ -45,6 +46,8 @@ const Signin = () => {
   //     if (!response.ok) {
   //       throw new Error(data.message || data.error || "Failed to login");
   //     }
+
+  //     await AsyncStorage.setItem("userToken", data.token);
 
   //     Toast.show({
   //       type: 'success',
@@ -121,7 +124,7 @@ const Signin = () => {
 
             {/* Button */}
             <TouchableOpacity
-              onPress={() => router.push("/(tabs)")}
+              // onPress={handleSubmit}
               disabled={loading}
               className="rounded-xl py-4 flex-row items-center justify-center bg-[#29a38b]"
             >

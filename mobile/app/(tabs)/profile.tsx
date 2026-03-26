@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, ScrollView, TouchableOpacity, Image, Switch, Modal, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Settings, LogOut, Shield, ChevronRight, Bell, BookOpen, Clock } from "lucide-react-native";
+import { Settings, LogOut, Shield, ChevronRight, Bell, BookOpen, Clock, Flame, TrendingUp } from "lucide-react-native";
 import { useRouter } from "expo-router";
 import { registerForPushNotificationsAsync, scheduleDailyStudyReminder } from "../../utils/notifications";
 
@@ -67,6 +67,50 @@ export default function Profile() {
 
       <ScrollView className="flex-1 p-6" contentContainerStyle={{ paddingBottom: 100 }}>
         
+        {/* Progress & Journey Section */}
+        <Text className="text-lg font-bold text-[#1a1c23] mb-4">Your Journey</Text>
+        
+        <View className="flex-row gap-4 mb-6">
+          <View className="flex-1 bg-white rounded-3xl p-4 border border-[#e2e4e9] shadow-sm">
+            <View className="h-10 w-10 rounded-full bg-orange-50 items-center justify-center mb-3">
+              <Flame size={20} color="#f97316" />
+            </View>
+            <Text className="text-3xl font-bold text-[#1a1c23] mb-1">14</Text>
+            <Text className="text-sm text-[#737a8d] font-medium">Day Streak</Text>
+          </View>
+          
+          <View className="flex-1 bg-white rounded-3xl p-4 border border-[#e2e4e9] shadow-sm">
+            <View className="h-10 w-10 rounded-full bg-[#e5efea] items-center justify-center mb-3 border border-[#29a38b]/20">
+              <TrendingUp size={20} color="#29a38b" />
+            </View>
+            <Text className="text-3xl font-bold text-[#1a1c23] mb-1">68%</Text>
+            <Text className="text-sm text-[#737a8d] font-medium">Progress</Text>
+          </View>
+        </View>
+
+        <Text className="text-lg font-bold text-[#1a1c23] mb-4">Areas to Improve</Text>
+        <View className="bg-white rounded-3xl border border-[#e2e4e9] p-5 mb-6 shadow-sm">
+          <View className="mb-4">
+            <View className="flex-row justify-between mb-2">
+              <Text className="text-sm font-bold text-[#4a4f5c]">Physics (Mechanics)</Text>
+              <Text className="text-sm font-bold text-red-500">35%</Text>
+            </View>
+            <View className="w-full h-2.5 bg-[#f1f2f4] rounded-full overflow-hidden">
+              <View className="h-full bg-red-500 rounded-full" style={{ width: '35%' }} />
+            </View>
+          </View>
+          
+          <View>
+            <View className="flex-row justify-between mb-2">
+              <Text className="text-sm font-bold text-[#4a4f5c]">Chemistry (Organic)</Text>
+              <Text className="text-sm font-bold text-amber-500">48%</Text>
+            </View>
+            <View className="w-full h-2.5 bg-[#f1f2f4] rounded-full overflow-hidden">
+              <View className="h-full bg-amber-500 rounded-full" style={{ width: '48%' }} />
+            </View>
+          </View>
+        </View>
+
         {/* Settings Links */}
         <Text className="text-lg font-bold text-[#1a1c23] mb-4">Account</Text>
         
