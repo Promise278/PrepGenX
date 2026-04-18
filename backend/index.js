@@ -7,6 +7,11 @@ const db = require("./models");
 const authRoutes = require("./routes/auth.routes");
 const aiRoutes = require("./routes/ai.routes");
 const chatRoutes = require("./routes/chat.routes");
+const examsRoutes = require("./routes/exams.routes");
+const weaknessRoutes = require("./routes/weakness.routes");
+const parentRoutes = require("./routes/parent.routes");
+const studyPlanRoutes = require("./routes/studyPlan.routes");
+const socialRoutes = require("./routes/social.routes");
 
 const http = require("http");
 const { Server } = require("socket.io");
@@ -14,6 +19,17 @@ const { Server } = require("socket.io");
 dotenv.config();
 
 const app = express();
+
+// Simple Request/Response Logger for Testing
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on('finish', () => {
+    const duration = Date.now() - start;
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url} ${res.statusCode} - ${duration}ms`);
+  });
+  next();
+});
+
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
@@ -30,6 +46,11 @@ app.use(express.json());
 app.use("/auth", authRoutes);
 app.use("/ai", aiRoutes);
 app.use("/chat", chatRoutes);
+app.use("/exams", examsRoutes);
+app.use("/weakness", weaknessRoutes);
+app.use("/parent", parentRoutes);
+app.use("/study-plan", studyPlanRoutes);
+app.use("/social", socialRoutes);
 
 // Health Check
 app.get("/health", (req, res) => {
@@ -49,6 +70,30 @@ io.on("connection", (socket) => {
     const { roomId, message } = data;
     // Broadcast message to everyone in the room
     io.to(roomId).emit("receive_message", message);
+  });
+
+  // Video Call Signaling
+  socket.on("call_user", (data) => {
+    const { userToCall, signalData, from, name } = data;
+    console.log(`User ${from} is calling ${userToCall}`);
+    // In a real app, we'd find the socket ID of userToCall.
+    // For this demo/private room setup, we broadcast to the user's "personal" room or just emit globally with a target ID.
+    socket.broadcast.emit("incoming_call", { signal: signalData, from, name, userToCall });
+  });
+
+  socket.on("accept_call", (data) => {
+    console.log(`Call accepted by ${data.to}`);
+    io.emit("call_accepted", data.signal);
+  });
+
+  socket.on("decline_call", (data) => {
+    console.log(`Call declined by ${data.to}`);
+    io.emit("call_declined", { to: data.to });
+  });
+
+  socket.on("end_call", (data) => {
+    console.log(`Call ended by ${socket.id}`);
+    socket.broadcast.emit("call_ended");
   });
 
   socket.on("disconnect", () => {

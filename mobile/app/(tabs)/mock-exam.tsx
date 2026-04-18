@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { BookOpen, Clock, CheckCircle, XCircle, AlertCircle, ChevronRight, Award, ShieldAlert, ArrowLeft, ArrowRight } from "lucide-react-native";
 import { useFocusEffect } from "expo-router";
+import { fetchWithAuth } from "../../utils/api";
 
 type ExamType = "JAMB" | "WAEC" | "NECO";
 
@@ -40,7 +41,11 @@ export default function MockExam() {
   
   const [timeLeft, setTimeLeft] = useState(0);
   const [timerActive, setTimerActive] = useState(false);
-  const [customTimeMinutes, setCustomTimeMinutes] = useState<number | null>(null);
+  const [questionStartTime, setQuestionStartTime] = useState<number>(Date.now());
+  const [timeSlabs, setTimeSlabs] = useState<number[]>([]); // To track time spent per question
+  
+  const [breakdown, setBreakdown] = useState<{ careless: number, gaps: string[] } | null>(null);
+  const customTimeMinutes = null;
 
   const subjectScrollRef = useRef<ScrollView>(null);
 
@@ -60,6 +65,29 @@ export default function MockExam() {
     setExamState('RESULTS');
   };
 
+  const finishExam = useCallback(() => {
+    setTimerActive(false);
+    
+    // Calculate Breakdown
+    let carelessCount = 0;
+    const gaps: Set<string> = new Set();
+
+    questions.forEach((q, idx) => {
+      const userAns = answers[idx];
+      if (userAns !== null && userAns !== q.correctIdx) {
+        // If they missed it and spent < 10 seconds or it's a "mastered" subject
+        if (timeSlabs[idx] < 10) {
+          carelessCount++;
+        } else {
+          gaps.add(`${q.subject}: ${q.topic || 'Fundamentals'}`);
+        }
+      }
+    });
+
+    setBreakdown({ careless: carelessCount, gaps: Array.from(gaps).slice(0, 3) });
+    setExamState('RESULTS');
+  }, [answers, questions, timeSlabs]);
+
   // Timer Effect
   useEffect(() => {
     let interval: any;
@@ -71,7 +99,7 @@ export default function MockExam() {
       finishExam();
     }
     return () => clearInterval(interval);
-  }, [timerActive, timeLeft, examState]);
+  }, [timerActive, timeLeft, examState, finishExam]);
 
   const selectExamType = (type: ExamType) => {
     setSelectedExamType(type);
@@ -94,30 +122,25 @@ export default function MockExam() {
     }
   };
 
-  // Groups questions by subject. English usually has more, but we'll distribute evenly for the mock.
-  const generateMockQuestions = (totalQ: number, subjects: string[]) => {
-    const qPerSubject = Math.floor(totalQ / subjects.length);
-    const extraQ = totalQ % subjects.length;
-
-    let generated: any[] = [];
-    
-    subjects.forEach((subj, subjIdx) => {
-      const numOfQs = subjIdx === 0 ? qPerSubject + extraQ : qPerSubject; 
-      for (let i = 0; i < numOfQs; i++) {
-        generated.push({
-          subject: subj,
-          question: `[${subj}] Simulated Question ${i + 1}: Based on the ${subj} syllabus, which of the following statements is historically or scientifically accurate?`,
-          options: ["Correct Output or Concept", "Incorrect Output 1", "Incorrect Output 2", "Incorrect Output 3"],
-          correctIdx: 0,
-          explanation: `This is the detailed explanation for ${subj} Question ${i + 1}. The correct answer is Option A because it aligns perfectly with the standard principles defined in the syllabus. Options B, C, and D represent common misconceptions.`
-        });
+  const generateMockQuestions = async (totalQ: number, subjects: string[]) => {
+    try {
+      const res = await fetchWithAuth("/exams/mock", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ subjects, totalQuestions: totalQ })
+      });
+      const data = await res.json();
+      if (data.success && data.questions) {
+        return data.questions;
       }
-    });
-
-    return generated;
+      return [];
+    } catch (error) {
+       console.error("Failed to fetch mock exam", error);
+       return [];
+    }
   };
 
-  const startExam = () => {
+  const startExam = async () => {
     if (!selectedExamType) return;
     const rules = EXAM_STANDARDS[selectedExamType];
 
@@ -126,18 +149,25 @@ export default function MockExam() {
       return;
     }
 
-    const generatedQs = generateMockQuestions(rules.totalQuestions, selectedSubjects);
+    const generatedQs = await generateMockQuestions(rules.totalQuestions, selectedSubjects);
+    
+    if (generatedQs.length === 0) {
+      Alert.alert("No Questions Found", "We couldn't generate a mock exam for the selected subjects. They may not have questions in the database yet.");
+      return;
+    }
+
     setQuestions(generatedQs);
-    setAnswers(new Array(rules.totalQuestions).fill(null));
+    setAnswers(new Array(generatedQs.length).fill(null));
     setCurrentQuestionIdx(0);
     setScore(0);
     
-    // Check if user set a custom time, else use the default rule time
     const finalTimeSeconds = customTimeMinutes ? customTimeMinutes * 60 : rules.timeLimitSeconds;
     setTimeLeft(finalTimeSeconds);
     
     setTimerActive(true);
     setExamState('IN_PROGRESS');
+    setQuestionStartTime(Date.now());
+    setTimeSlabs(new Array(generatedQs.length).fill(0));
   };
 
   const jumpToSubject = (subject: string) => {
@@ -162,23 +192,19 @@ export default function MockExam() {
     updatedAnswers[currentQuestionIdx] = selectedIdx;
     setAnswers(updatedAnswers);
 
+    // Record time spent on this question
+    const timeSpent = Math.floor((Date.now() - questionStartTime) / 1000);
+    const updatedSlabs = [...timeSlabs];
+    updatedSlabs[currentQuestionIdx] = (updatedSlabs[currentQuestionIdx] || 0) + timeSpent;
+    setTimeSlabs(updatedSlabs);
+    setQuestionStartTime(Date.now());
+
     // Auto next question
     if (currentQuestionIdx < questions.length - 1) {
       setCurrentQuestionIdx(prev => prev + 1);
-      
-      // Auto scroll subjects if subject changed
-      const nextSubj = questions[currentQuestionIdx + 1]?.subject;
-      const currSubj = questions[currentQuestionIdx]?.subject;
-      if (nextSubj && currSubj && nextSubj !== currSubj) {
-         // Could add logic to center active tab
-      }
     }
   };
 
-  const finishExam = () => {
-    setTimerActive(false);
-    setExamState('RESULTS');
-  };
 
   const formatTime = (seconds: number) => {
     const h = Math.floor(seconds / 3600);
@@ -455,6 +481,36 @@ export default function MockExam() {
               {percentage}% — {passed ? 'Excellent Performance!' : 'Requires Intense Improvement'}
             </Text>
           </View>
+
+          {/* Failure Breakdown Engine (Result Machine) */}
+          {breakdown && (
+            <View className="w-full bg-[#1a1c23] p-6 rounded-[32px] mb-8 shadow-xl">
+               <Text className="text-white/40 text-[10px] font-black uppercase tracking-[3px] mb-4">Failure Breakdown Engine</Text>
+               
+               <View className="flex-row gap-4 mb-6">
+                  <View className="flex-1 bg-white/5 p-4 rounded-2xl border border-white/10">
+                    <Text className="text-white font-black text-2xl mb-1">{breakdown.careless}</Text>
+                    <Text className="text-white/60 text-[10px] font-black uppercase">Careless Mistakes</Text>
+                  </View>
+                  <View className="flex-1 bg-white/5 p-4 rounded-2xl border border-white/10">
+                    <Text className="text-white font-black text-2xl mb-1">{breakdown.gaps.length}+</Text>
+                    <Text className="text-white/60 text-[10px] font-black uppercase">Conceptual Gaps</Text>
+                  </View>
+               </View>
+
+               {breakdown.gaps.length > 0 && (
+                 <View>
+                    <Text className="text-red-400 font-bold text-xs uppercase mb-3">Priority Review Needed:</Text>
+                    {breakdown.gaps.map((gap, i) => (
+                      <View key={i} className="flex-row items-center gap-2 mb-2">
+                        <ShieldAlert size={14} color="#f87171" />
+                        <Text className="text-white/80 text-sm font-medium">{gap}</Text>
+                      </View>
+                    ))}
+                 </View>
+               )}
+            </View>
+          )}
 
           {/* New Review Answers Button */}
           <TouchableOpacity 

@@ -1,10 +1,19 @@
 import * as Device from 'expo-device';
-import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 import Constants from 'expo-constants';
 
-// Only handle notifications if we are NOT running in standard Expo Go app
+let Notifications: any = null;
 if (Constants.appOwnership !== 'expo') {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    Notifications = require('expo-notifications');
+  } catch {
+    console.log("Expo Notifications not available.");
+  }
+}
+
+// Only handle notifications if we are NOT running in standard Expo Go app
+if (Constants.appOwnership !== 'expo' && Notifications) {
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
       shouldShowAlert: true,
@@ -17,7 +26,7 @@ if (Constants.appOwnership !== 'expo') {
 }
 
 export async function registerForPushNotificationsAsync() {
-  if (Constants.appOwnership === 'expo') {
+  if (Constants.appOwnership === 'expo' || !Notifications) {
     console.log("Push notifications disabled in Expo Go. Use a development build.");
     return;
   }
@@ -54,7 +63,7 @@ export async function registerForPushNotificationsAsync() {
 }
 
 export async function scheduleDailyStudyReminder(hour: number, minute: number) {
-  if (Constants.appOwnership === 'expo') {
+  if (Constants.appOwnership === 'expo' || !Notifications) {
     console.log("Cannot schedule notifications in Expo Go. Use a development build.");
     return;
   }

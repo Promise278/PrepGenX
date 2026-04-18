@@ -10,13 +10,16 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Progresss.belongsTo(models.Users, { foreignKey: 'userId' });
+      Progresss.belongsTo(models.Subjects, { foreignKey: 'subjectId' });
     }
   }
   Progresss.init({
     id: { type: DataTypes.UUID, primaryKey: true, defaultValue: DataTypes.UUIDV4 },
     difficultyLevel: DataTypes.ENUM('easy', 'medium', 'hard'),
-    score: DataTypes.INTEGER
+    score: DataTypes.INTEGER,
+    userId: DataTypes.UUID,
+    subjectId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Progresss',

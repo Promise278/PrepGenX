@@ -19,8 +19,15 @@ module.exports = (sequelize, DataTypes) => {
     fullname: DataTypes.STRING,
     username: DataTypes.STRING,
     email: DataTypes.STRING,
+    parentEmail: DataTypes.STRING,
     password: DataTypes.STRING,
-    points: DataTypes.INTEGER
+    points: DataTypes.INTEGER,
+    streak: { type: DataTypes.INTEGER, defaultValue: 0 },
+    examsTaken: { type: DataTypes.INTEGER, defaultValue: 0 },
+    progress: { type: DataTypes.INTEGER, defaultValue: 0 },
+    lastStudyDate: DataTypes.DATE,
+    examDate: DataTypes.DATE,
+    targetScore: { type: DataTypes.INTEGER, defaultValue: 280 }
   }, {
     sequelize,
     modelName: 'Users',

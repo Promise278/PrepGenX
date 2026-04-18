@@ -4,7 +4,7 @@
     "slug": "prepgenx",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/prepgenxlogobg.png",
     "scheme": "mobile",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -16,9 +16,9 @@
       "package": "com.prepgenyx.mobile",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+        "foregroundImage": "./assets/images/prepgenxlogobg.png",
+        "backgroundImage": "./assets/images/prepgenxlogo.png",
+        "monochromeImage": "./assets/images/prepgenxlogobg.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false

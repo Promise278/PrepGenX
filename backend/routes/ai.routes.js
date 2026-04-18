@@ -14,4 +14,7 @@ router.post('/tutor', protect, upload.single('audio'), aiController.processVoice
 // Route to process Image Tutor interactions
 router.post('/image', protect, upload.single('image'), aiController.processImageTutor);
 
+// Route to process Text Tutor interactions
+router.post('/text', protect, aiController.processTextTutor);
+
 module.exports = router;

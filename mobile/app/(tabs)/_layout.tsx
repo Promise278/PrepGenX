@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { View, Platform } from 'react-native';
+import { View } from 'react-native';
 import { Home, Mic, FileText, Trophy, User } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -9,12 +9,12 @@ export default function TabLayout() {
   const insets = useSafeAreaInsets();
   return (
     <>
-      <StatusBar style="light" backgroundColor="#29a38b" />
+      <StatusBar style="light" backgroundColor="#0d1f1a" />
       <Tabs
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: '#29a38b',
-        tabBarInactiveTintColor: '#7B7B7B',
+        tabBarInactiveTintColor: '#737a8d',
         tabBarLabelStyle: {
           fontSize: 11,
           fontWeight: '600',
@@ -24,9 +24,9 @@ export default function TabLayout() {
           paddingBottom: insets.bottom ? insets.bottom : 8,
           paddingTop: 8,
           height: insets.bottom ? 65 + insets.bottom : 65,
-          backgroundColor: '#ffffff',
+          backgroundColor: '#0d1f1a',
           borderTopWidth: 1,
-          borderTopColor: '#f1f2f4',
+          borderTopColor: 'rgba(255,255,255,0.05)',
           elevation: 0,
           shadowOpacity: 0
         },
