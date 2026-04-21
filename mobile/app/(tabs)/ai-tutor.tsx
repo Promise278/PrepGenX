@@ -187,15 +187,15 @@ export default function AiTutor() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-[#0d1f1a]" edges={['top']}>
+    <SafeAreaView className="flex-1 bg-[#faf9f4] edges={['top']}">
       {/* Header */}
-      <View className="px-6 pt-4 pb-4 border-b border-white/5 bg-[#162c26] shadow-xl flex-row items-center justify-between">
+      <View className="px-6 py-6 border-b border-[#e2e4e9] bg-white shadow-sm flex-row items-center justify-between">
         <View className="flex-row items-center gap-3">
           <View className="h-10 w-10 items-center justify-center rounded-full bg-[#29a38b]">
             <MessageSquare size={20} color="white" />
           </View>
           <View>
-            <Text className="text-lg font-bold text-white">StudyAI Tutor</Text>
+            <Text className="text-lg font-bold text-black">StudyAI Tutor</Text>
             <Text className="text-xs text-[#29a38b] font-medium">
               {isRecording ? "Listening..." : isSpeaking ? "Speaking..." : "Online"}
             </Text>
@@ -222,8 +222,8 @@ export default function AiTutor() {
         >
           {messages.map((msg, idx) => (
             <View key={idx} className={`mb-4 max-w-[85%] ${msg.role === 'user' ? 'self-end' : 'self-start'}`}>
-              <View className={`rounded-2xl px-5 py-3 ${msg.role === 'user' ? 'bg-[#29a38b] rounded-tr-sm' : 'bg-[#162c26] rounded-tl-sm border border-white/5'}`}>
-                <Text className={`text-base leading-6 ${msg.role === 'user' ? 'text-white' : 'text-[#e2e4e9]'}`}>
+              <View className={`rounded-2xl px-5 py-3 ${msg.role === 'user' ? 'bg-[#29a38b] rounded-tr-sm' : 'bg-[#dff0eb] rounded-tl-sm border border-white/5'}`}>
+                <Text className={`text-base leading-6 ${msg.role === 'user' ? 'text-white' : 'text-black'}`}>
                   {msg.content}
                 </Text>
               </View>
@@ -240,7 +240,7 @@ export default function AiTutor() {
         </ScrollView>
 
         {/* Speed Actions Palette (Addiction Loop) */}
-        {!isVoiceMode && (
+        {/* {!isVoiceMode && (
            <View className="px-4 py-3 flex-row gap-2">
              <TouchableOpacity 
                onPress={() => fetchAiResponse("Summarize the last point in 10 seconds exactly.")}
@@ -264,10 +264,10 @@ export default function AiTutor() {
                 <Text className="text-white font-bold text-[10px] uppercase">Similar Quiz</Text>
              </TouchableOpacity>
            </View>
-        )}
+        )} */}
 
         {/* Persona Selector */}
-        {!isVoiceMode && (
+        {/* {!isVoiceMode && (
           <View className="px-4 pb-2 flex-row gap-2">
              {(['sage', 'hype', 'peer'] as const).map((p) => (
                 <TouchableOpacity 
@@ -280,13 +280,13 @@ export default function AiTutor() {
                 </TouchableOpacity>
              ))}
           </View>
-        )}
+        )} */}
 
         {/* Input Area */}
-        <View className="px-4 pb-8 pt-3 bg-[#162c26] border-t border-white/5 flex-row items-end gap-2">
-          <View className="flex-1 bg-[#0d1f1a] rounded-3xl border border-white/10 px-4 py-2 flex-row items-center min-h-[50px] max-h-[120px]">
+        <View className="px-4 bg-white border border-white/5 flex-row items-end gap-2">
+          <View className="flex-1 bg-[#e8ebea] rounded-3xl border border-white/10 px-4 py-2 flex-row items-center min-h-[50px] max-h-[120px]">
             <TextInput 
-              className="flex-1 text-white text-base pt-2 pb-2"
+              className="flex-1 text-black text-base pt-2 pb-2"
               placeholder="Message Tutor..."
               placeholderTextColor="#737a8d"
               multiline

@@ -142,7 +142,7 @@ export default function Dashboard() {
   }
 
   return (
-    <SafeAreaView className="flex-1" style={{ backgroundColor: moodColors[urgencyLevel] }}>
+    <SafeAreaView className="flex-1" style={{ backgroundColor: "#faf9f4" }}>
       <ScrollView 
         contentContainerStyle={{ padding: 24, paddingBottom: 120 }}
         showsVerticalScrollIndicator={false}
@@ -150,13 +150,13 @@ export default function Dashboard() {
         {/* Header Section */}
         <View className="mb-8 flex-row items-center justify-between">
           <View>
-            <Text className="text-white/40 text-[10px] font-black uppercase tracking-[3px] mb-1">Elite Candidate</Text>
-            <Text className="text-3xl font-black text-white tracking-tighter uppercase">{profileData?.fullname?.split(' ')[0] || 'Scholar'}</Text>
+            <Text className="text-black text-[12px] font-black uppercase tracking-[3px] mb-1">Hello, John</Text>
+            <Text className="text-3xl font-black text-[#0e3127] tracking-tighter uppercase">Welcome Back</Text>
           </View>
           <TouchableOpacity 
             onLongPress={() => setShowTestMenu(true)}
             onPress={() => router.push('/(tabs)/profile')}
-            className="h-14 w-14 rounded-2xl bg-[#162c26] border border-white/5 items-center justify-center overflow-hidden shadow-sm"
+            className="h-14 w-14 rounded-full bg-[#dff0eb] text-[#6be7c6] border border-white/5 items-center justify-center overflow-hidden shadow-sm"
           >
             <UserAvatar name={profileData?.fullname} />
           </TouchableOpacity>
@@ -166,16 +166,16 @@ export default function Dashboard() {
         {!loadingStatus && (
           <View className="mb-8 flex-row items-center gap-6">
             <View className="h-32 w-32 items-center justify-center relative">
-              <View className="absolute inset-0 rounded-full border-[10px] border-white/10" />
+              <View className="absolute inset-0 rounded-full border-[10px] border-[#e2e7e6]" />
               <View className="absolute inset-0 rounded-full border-[10px] border-[#29a38b]" style={{ borderRightColor: 'transparent', borderBottomColor: 'transparent', transform: [{ rotate: '45deg' }] }} />
               <View className="items-center">
-                <Text className="text-3xl font-black text-white">{Math.round(subjects.reduce((a, b) => a + b.score, 0) / (subjects.length || 1))}%</Text>
-                <Text className="text-[8px] font-black text-white/40 uppercase tracking-widest">Ready</Text>
+                <Text className="text-3xl font-black text-black">{Math.round(subjects.reduce((a, b) => a + b.score, 0) / (subjects.length || 1))}%</Text>
+                <Text className="text-[8px] font-black text-black uppercase tracking-widest">Ready</Text>
               </View>
             </View>
             <View className="flex-1">
-              <Text className="text-white font-black text-lg mb-1">JAMB Readiness</Text>
-              <Text className="text-white/60 text-xs leading-4 mb-3">
+              <Text className="text-black font-black text-lg mb-1">JAMB Readiness</Text>
+              <Text className="text-black text-xs leading-4 mb-3">
                  {Math.round(subjects.reduce((a, b) => a + b.score, 0) / (subjects.length || 1)) > 80 
                   ? "Elite status! Just polish your weak topics to hit 300+." 
                   : "Keep grinding! You're closing the gap on your target score."}
@@ -239,8 +239,8 @@ export default function Dashboard() {
         )}
 
         {/* Subjects Grid */}
-        <Text className="text-xl font-black tracking-tighter text-white uppercase mb-6">
-          Subject Mastery
+        <Text className="text-xl font-black tracking-tighter text-black mb-6">
+          Subject Difficulty
         </Text>
 
         <View>
@@ -296,7 +296,7 @@ export default function Dashboard() {
 
         {/* Recent Activity */}
         <View className="mt-12">
-          <Text className="text-2xl font-black tracking-tighter text-white uppercase mb-6">
+          <Text className="text-2xl font-black tracking-tighter text-black mb-6">
             Live Activity
           </Text>
           <View className="rounded-[32px] border border-white/5 bg-[#162c26] p-2 shadow-sm">

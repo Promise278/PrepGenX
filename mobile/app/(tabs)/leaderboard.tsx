@@ -38,15 +38,15 @@ export default function Leaderboard() {
   }, []);
 
   return (
-    <SafeAreaView className="flex-1 bg-[#0d1f1a]">
+    <SafeAreaView className="flex-1 bg-[#faf9f4]">
       {/* Header */}
-      <View className="px-6 pt-10 pb-8 bg-[#162c26] rounded-b-[40px] shadow-2xl items-center border-b border-white/5">
+      <View className="px-6 pt-10 pb-8 bg-[#29a38b] rounded-b-[40px] shadow-2xl items-center border-b border-white/5">
         <View className="h-20 w-20 bg-[#29a38b]/10 rounded-full items-center justify-center mb-4 border border-[#29a38b]/20">
-          <Trophy size={40} color="#fcd34d" />
+          <Trophy size={72} color="#fcd34d" />
         </View>
         <Text className="text-3xl font-black text-white mb-2 tracking-tighter uppercase">Elite Rankings</Text>
-        <Text className="text-[#29a38b] font-bold tracking-[2px] uppercase text-[10px] mb-4">
-          Nigeria National Standings
+        <Text className="text-white tracking-[2px] text-center text-[12px] mb-4">
+          Compete with students across Nigeria to earn badges and unlock achievements!
         </Text>
       </View>
 

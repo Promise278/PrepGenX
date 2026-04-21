@@ -24,7 +24,6 @@ module.exports = (sequelize, DataTypes) => {
       type: { type: DataTypes.ENUM("JAMB", "WAEC", "NECO"), allowNull: false },
       subjectId: { type: DataTypes.UUID, allowNull: false },
     },
-    {},
     {
       sequelize,
       modelName: "exams",

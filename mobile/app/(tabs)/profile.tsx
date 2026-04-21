@@ -102,7 +102,7 @@ export default function Profile() {
   };
 
   const getInitials = (name: string) => {
-    if (!name) return "ST";
+    if (!name) return "PO";
     return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
   };
 
@@ -115,19 +115,19 @@ export default function Profile() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-[#0d1f1a]">
+    <SafeAreaView className="flex-1 bg-[#faf9f4]">
       {/* Header with Premium Aesthetic */}
-      <View className="p-8 bg-[#162c26] rounded-b-[48px] shadow-2xl items-center pt-14 pb-10 relative overflow-hidden border-b border-white/5">
+      <View className="p-8 bg-[#29a38b] rounded-b-[48px] shadow-2xl items-center pt-14 relative overflow-hidden border-b border-white/5">
         {/* Decorative subtle circles in background */}
         <View className="absolute top-[-20] right-[-30] w-48 h-48 rounded-full bg-[#29a38b]/5" />
         <View className="absolute bottom-[-10] left-[-40] w-40 h-40 rounded-full bg-[#29a38b]/5" />
         
-        <View className="h-28 w-28 rounded-full bg-[#0d1f1a] border-4 border-[#29a38b]/20 items-center justify-center shadow-2xl mb-5 relative">
-          <Text className="text-4xl font-extrabold text-white">{getInitials(profileData?.fullname)}</Text>
-          <View className="absolute bottom-0 right-0 h-6 w-6 rounded-full bg-[#29a38b] border-2 border-[#0d1f1a]" />
+        <View className="h-28 w-28 rounded-full bg-white border-4 border-[#29a38b]/20 items-center justify-center shadow-2xl mb-5 relative">
+          <Text className="text-4xl font-extrabold text-[#29a38b]">{getInitials(profileData?.fullname)}</Text>
+          <View className="absolute bottom-0 right-0 h-6 w-6 rounded-full bg-[#29a38b] border-2 border-[#ced1d0]" />
         </View>
-        <Text className="text-3xl font-black text-white mb-1 tracking-tighter uppercase">{profileData?.fullname || 'Scholar'}</Text>
-        <Text className="text-[#29a38b] font-bold text-xs uppercase tracking-[3px] mb-6">{profileData?.classLevel || 'Candidate'} • {profileData?.examType || 'Elite'}</Text>
+        <Text className="text-3xl font-black text-white mb-1 tracking-tighter uppercase">{profileData?.fullname || 'Promotex'}</Text>
+        <Text className="text-white font-bold text-xs uppercase tracking-[3px] mb-6">{profileData?.classLevel || 'Candidate'} • {profileData?.examType || 'Elite'}</Text>
         
         <View className="flex-row gap-5 w-full justify-center">
           <View className="bg-white/5 rounded-2xl px-5 py-3 items-center flex-1 max-w-[140px] border border-white/5">
@@ -144,10 +144,10 @@ export default function Profile() {
       <ScrollView className="flex-1 p-6" contentContainerStyle={{ paddingBottom: 100 }} showsVerticalScrollIndicator={false}>
         
         {/* Progress & Journey Section */}
-        <Text className="text-xl font-black text-white mb-4 tracking-tighter uppercase">Your Journey</Text>
+        <Text className="text-xl font-black text-black mb-4 tracking-tighter uppercase">Your Journey</Text>
         
         <View className="flex-row gap-4 mb-8">
-          <View className="flex-1 bg-[#162c26] rounded-[28px] p-5 border border-white/5 shadow-sm items-center">
+          <View className="flex-1 bg-[#29a38b] rounded-[28px] p-5 border border-white/5 shadow-sm items-center">
             <View className="h-12 w-12 rounded-full bg-[#0d1f1a] items-center justify-center mb-4">
               <Flame size={24} color="#f97316" />
             </View>
@@ -155,7 +155,7 @@ export default function Profile() {
             <Text className="text-[10px] text-white/40 font-black uppercase tracking-[2px]">Streak</Text>
           </View>
           
-          <View className="flex-1 bg-[#162c26] rounded-[28px] p-5 border border-white/5 shadow-sm items-center">
+          <View className="flex-1 bg-[#29a38b] rounded-[28px] p-5 border border-white/5 shadow-sm items-center">
             <View className="h-12 w-12 rounded-full bg-[#0d1f1a] items-center justify-center mb-4">
               <TrendingUp size={24} color="#29a38b" />
             </View>
@@ -185,7 +185,7 @@ export default function Profile() {
           </View>
         )}
 
-        <Text className="text-xl font-black text-white mb-4 tracking-tighter uppercase">Areas to Improve</Text>
+        <Text className="text-xl font-black text-black mb-4 tracking-tighter uppercase">Areas to Improve</Text>
         <View className="bg-[#162c26] rounded-[32px] border border-white/5 p-6 mb-8 shadow-sm">
           {(!profileData?.weaknesses || profileData.weaknesses.length === 0) ? (
             <View className="items-center py-4">
@@ -218,38 +218,37 @@ export default function Profile() {
         </View>
 
         {/* Settings Links */}
-        <Text className="text-xl font-black text-white mb-4 tracking-tighter uppercase">Account</Text>
+        <Text className="text-xl font-black text-black mb-4 tracking-tighter uppercase">Account</Text>
         
-        <View className="bg-[#162c26] rounded-[32px] border border-white/5 p-2 mb-8 shadow-sm">
-          <ProfileLink icon={<BookOpen size={22} color="#29a38b" />} title="My Target Exams" subtitle="JAMB, WAEC" dark />
-          <View className="h-[1px] w-[85%] bg-white/5 self-end" />
+        <View className="bg-white rounded-[20px] border border-black/10 p-2 mb-8 shadow-sm">
+          <ProfileLink icon={<BookOpen size={22} color="#29a38b" />} title="My Target Exams" subtitle="JAMB, WAEC" />
+          <View className="h-[1px] w-[100%] bg-black/10" />
           <ProfileLink 
             icon={<Shield size={22} color="#29a38b" />} 
             title="Parent Connectivity" 
             subtitle={linkedParent ? `Linked: ${linkedParent}` : "Not linked. Tap to connect."}
             onPress={() => setShowParentModal(true)}
-            dark
           />
         </View>
 
-        <Text className="text-xl font-black text-white mb-4 tracking-tighter uppercase">Study Habits</Text>
+        <Text className="text-xl font-black text-black mb-4 tracking-tighter uppercase">Study Habits</Text>
 
         {/* Daily Study Alarm Notification Card */}
-        <View className="bg-[#162c26] rounded-[32px] border border-white/5 p-5 mb-8 shadow-sm">
+        <View className="bg-white rounded-[20px] border border-white/5 p-3 mb-8 shadow-sm">
           <View className="flex-row items-center justify-between mb-2">
             <View className="flex-row items-center gap-4">
-              <View className="h-12 w-12 rounded-full bg-[#0d1f1a] items-center justify-center border border-[#29a38b]/20">
+              <View className="h-12 w-12 rounded-full items-center justify-center border border-[#29a38b]/20">
                 <Bell size={24} color="#29a38b" />
               </View>
               <View>
-                <Text className="text-lg font-bold text-white">Daily Study Alarm</Text>
-                <Text className="text-sm font-medium text-white/40 uppercase tracking-widest text-[10px]">Push notification reminder</Text>
+                <Text className="text-lg font-bold text-black">Daily Study Alarm</Text>
+                <Text className="text-sm font-medium text-black/40 tracking-widest text-[10px]">Push notification reminder</Text>
               </View>
             </View>
             <Switch 
               value={reminderEnabled} 
               onValueChange={handleToggleReminder}
-              trackColor={{ false: "#0d1f1a", true: "#29a38b" }}
+              trackColor={{ false: "#3b413f", true: "#29a38b" }}
               thumbColor="white"
             />
           </View>
@@ -257,11 +256,11 @@ export default function Profile() {
           {reminderEnabled && (
             <TouchableOpacity 
               onPress={() => setShowTimePicker(true)}
-              className="flex-row items-center justify-between bg-[#0d1f1a] p-4 rounded-2xl border border-white/10 mt-3"
+              className="flex-row items-center justify-between bg-[#faf9f4] p-4 rounded-2xl border border-white/10 mt-3"
             >
               <View className="flex-row items-center gap-3">
                 <Clock size={20} color="#29a38b" />
-                <Text className="font-bold text-white text-base">Scheduled Time</Text>
+                <Text className="font-bold text-black text-base">Scheduled Time</Text>
               </View>
               <View className="flex-row items-center gap-2">
                 <Text className="font-extrabold text-[#29a38b] text-base">{formatAmPm(studyHour, studyMinute)}</Text>
@@ -271,11 +270,11 @@ export default function Profile() {
           )}
         </View>
 
-        <Text className="text-xl font-black text-white mb-4 tracking-tighter uppercase">Systems</Text>
+        <Text className="text-xl font-black text-black mb-4 tracking-tighter uppercase">Systems</Text>
         
-        <View className="bg-[#162c26] rounded-[32px] border border-white/5 p-2 mb-8 shadow-sm">
+        <View className="bg-white rounded-[32px] border border-black/10  p-2 mb-8 shadow-sm">
           <ProfileLink icon={<Settings size={22} color="#29a38b" />} title="Preferences" />
-          <View className="h-[1px] w-[85%] bg-white/5 self-end" />
+          <View className="h-[1px] w-[100%] bg-black/10 self-end" />
           <TouchableOpacity 
             onPress={handleLogout}
             className="flex-row items-center justify-between p-5"
@@ -394,7 +393,7 @@ export default function Profile() {
 const ProfileLink = ({ icon, title, subtitle, onPress, dark }: { icon: React.ReactNode, title: string, subtitle?: string, onPress?: () => void, dark?: boolean }) => (
   <TouchableOpacity onPress={onPress} activeOpacity={0.7} className="flex-row items-center justify-between p-5">
     <View className="flex-row items-center gap-4">
-      <View className="h-12 w-12 rounded-full bg-[#0d1f1a] items-center justify-center border border-white/5">
+      <View className="h-12 w-12 rounded-full bg-white items-center justify-center border border-[#737a8d]">
         {icon}
       </View>
       <View>
