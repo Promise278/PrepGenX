@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class weekness extends Model {
+  class Weaknesses extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      weekness.belongsTo(models.Users, { foreignKey: 'userId', as: 'user' });
-      weekness.belongsTo(models.Subjects, { foreignKey: 'subjectId', as: 'subject' });
+      Weaknesses.belongsTo(models.Users, { foreignKey: 'userId', as: 'user' });
+      Weaknesses.belongsTo(models.Subjects, { foreignKey: 'subjectId', as: 'subject' });
     }
   }
-  weekness.init({
+  Weaknesses.init({
     id: { 
       type: DataTypes.UUID, 
       primaryKey: true, 
@@ -55,7 +55,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'weekness',
+    modelName: 'Weaknesses',
+    tableName: 'weeknesses',
   });
-  return weekness;
+  return Weaknesses;
 };

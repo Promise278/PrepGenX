@@ -23,9 +23,11 @@ const app = express();
 // Simple Request/Response Logger for Testing
 app.use((req, res, next) => {
   const start = Date.now();
-  res.on('finish', () => {
+  res.on("finish", () => {
     const duration = Date.now() - start;
-    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url} ${res.statusCode} - ${duration}ms`);
+    console.log(
+      `[${new Date().toISOString()}] ${req.method} ${req.url} ${res.statusCode} - ${duration}ms`,
+    );
   });
   next();
 });
@@ -78,7 +80,12 @@ io.on("connection", (socket) => {
     console.log(`User ${from} is calling ${userToCall}`);
     // In a real app, we'd find the socket ID of userToCall.
     // For this demo/private room setup, we broadcast to the user's "personal" room or just emit globally with a target ID.
-    socket.broadcast.emit("incoming_call", { signal: signalData, from, name, userToCall });
+    socket.broadcast.emit("incoming_call", {
+      signal: signalData,
+      from,
+      name,
+      userToCall,
+    });
   });
 
   socket.on("accept_call", (data) => {
@@ -107,7 +114,9 @@ const PORT = process.env.PORT || 5000;
 db.sequelize
   .sync({ alter: true })
   .then(() => {
-    server.listen(PORT, () => console.log(`Database connected and server running on port ${PORT}`));
+    server.listen(PORT, () =>
+      console.log(`Database connected and server running on port ${PORT}`),
+    );
   })
   .catch((err) => {
     console.error("Failed to sync database: ", err.message);

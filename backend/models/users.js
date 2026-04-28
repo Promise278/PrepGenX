@@ -27,7 +27,9 @@ module.exports = (sequelize, DataTypes) => {
     progress: { type: DataTypes.INTEGER, defaultValue: 0 },
     lastStudyDate: DataTypes.DATE,
     examDate: DataTypes.DATE,
-    targetScore: { type: DataTypes.INTEGER, defaultValue: 280 }
+    targetScore: { type: DataTypes.INTEGER, defaultValue: 280 },
+    parentShareToken: DataTypes.STRING,
+    parentShareTokenExpiry: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'Users',

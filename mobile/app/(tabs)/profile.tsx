@@ -177,10 +177,10 @@ export default function Profile() {
               </View>
             </View>
             <TouchableOpacity 
-              onPress={() => Alert.alert("Parent Dashboard", `Share this link with your parent: http://localhost:5000/parent/dashboard/${profileData?.id}`)} 
+              onPress={() => router.push('/parent-portal' as any)} 
               className="bg-white/10 border border-white/20 rounded-2xl py-3 items-center"
             >
-              <Text className="text-white font-bold text-sm">View Report Link</Text>
+              <Text className="text-white font-bold text-sm">View Parent Report</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -227,7 +227,7 @@ export default function Profile() {
             icon={<Shield size={22} color="#29a38b" />} 
             title="Parent Connectivity" 
             subtitle={linkedParent ? `Linked: ${linkedParent}` : "Not linked. Tap to connect."}
-            onPress={() => setShowParentModal(true)}
+            onPress={() => linkedParent ? router.push('/parent-portal' as any) : setShowParentModal(true)}
           />
         </View>
 
