@@ -110,7 +110,7 @@ async function login(req, res) {
     }
 
     // Remove lastLogin update since column doesn't exist
-    // await Users.update({ lastLogin: new Date() }, { where: { id: user.id } });
+    await Users.update({ lastLogin: new Date() }, { where: { id: user.id } });
 
     const payload = {
       id: user.id,

@@ -2,14 +2,14 @@
 
 PrepGenyx is an AI-powered study assistant designed to help students prepare for exams and tests more effectively. By leveraging cutting-edge AI technologies and providing a seamless mobile and backend infrastructure, PrepGenyx offers personalized tutoring, study management, and social features to enhance the learning experience.
 
-## 🚀 Key Features
+## Key Features
 
--   **🤖 AI Tutor**: Advanced integration with OpenAI (GPT-4o mini, Whisper, TTS) for personalized tutoring and voice-enabled interactions.
--   **📚 Study Management**: Organized topics and student profiles to track progress and focus on key areas.
--   **🤝 Social connectivity**: Friendships and collaborative features to study together.
--   **📱 Cross-Platform Mobile App**: Built with Expo for iOS, Android, and Web, featuring a modern and intuitive UI with NativeWind styling.
--   **🔒 Secure Backend**: A robust Express.js server with JWT authentication and Sequelize ORM for reliable data management.
--   **📞 Communication**: Support for features like video calls and real-time notifications.
+-   ** AI Tutor**: Advanced integration with OpenAI (GPT-4o mini, Whisper, TTS) for personalized tutoring and voice-enabled interactions.
+-   ** Study Management**: Organized topics and student profiles to track progress and focus on key areas.
+-   ** Social connectivity**: Friendships and collaborative features to study together.
+-   ** Cross-Platform Mobile App**: Built with Expo for iOS, Android, and Web, featuring a modern and intuitive UI with NativeWind styling.
+-   ** Secure Backend**: A robust Express.js server with JWT authentication and Sequelize ORM for reliable data management.
+-   ** Communication**: Support for features like video calls and real-time notifications.
 
 ## 🛠️ Tech Stack
 
