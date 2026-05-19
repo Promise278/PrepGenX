@@ -1,7 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Weakness extends Model {
+  class StudyPlans extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Weakness.init(
+  StudyPlans.init(
     {
       id: {
         allowNull: false,
@@ -20,45 +20,38 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: Sequelize.UUIDV4,
       },
       userId: {
-        type: DataTypes.UUID,
+        type: Sequelize.UUID,
+        allowNull: false,
+        references: {
+          model: "Users",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
+      planData: {
+        type: DataTypes.JSON,
         allowNull: false,
       },
-      subjectId: {
-        type: DataTypes.UUID,
-        allowNull: false,
-      },
-      topic: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      severity: {
-        type: DataTypes.ENUM("low", "moderate", "high"),
-        defaultValue: "low",
-        allowNull: false,
-      },
-      score: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 0,
-      },
-      attempts: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0,
-      },
-      aiAnalysis: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-      },
-      lastAttemptDate: {
+      startDate: {
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
+        allowNull: false,
+        defaultValue: Sequelize.NOW,
       },
+      endDate: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      status: {
+        type: DataTypes.ENUM("active", "completed", "archived"),
+        allowNull: false,
+      }
     },
     {
       sequelize,
-      modelName: "Weakness",
-      tableName: "Weakness",
+      modelName: "StudyPlans",
+      tableName: "StudyPlan",
     },
   );
-  return Weakness;
+  return StudyPlans;
 };
